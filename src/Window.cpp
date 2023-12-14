@@ -81,7 +81,7 @@ void Window::run()
 
         if (elapsedTime >= 1.0)
         {
-            std::string windowTitle = "FPS: " + std::to_string(frames) + " (VSync: On)";
+            std::string windowTitle = "FPS: " + std::to_string(frames);
             glfwSetWindowTitle(window, windowTitle.c_str());
 
             elapsedTime = 0.0;
