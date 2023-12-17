@@ -4,8 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-
-
 Camera::Camera()
 { 
     setProjectionMatrix(fov, aspectRatio, zNear, zFar);
