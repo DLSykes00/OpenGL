@@ -10,33 +10,30 @@ public:
     Camera();
     void handleInput();
     void updateCamera();
-    void setProjectionMatrix(float aspectRatio);
     
     void setAspectRatio(float ar) { aspectRatio = ar; };
     glm::mat4 getViewMatrix() { return viewMatrix; };
     glm::mat4 getProjectionMatrix() { return projectionMatrix; };
 
 private: 
-    void setMatrices();
+    void updatePosition();
+    void setViewMatrix();
+    void setProjectionMatrix(float fov, float aspectRatio, float zNear, float zFar);
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
-
-    glm::vec3 pos;
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
-    float xRot = 0.0f;
-    float yRot = 0.0f;
 
     float fov = 70.0f;
     float aspectRatio = 1.0f;
     float zNear = 0.1f;
     float zFar = 300.0f;
 
-    float xi = 0.0f;
-    float yi = 0.0f;
-    float zi = 0.0f;
-    float xRoti = 0.0f;
-    float yRoti = 0.0f;
+    float x = 0.0f, xi = 0.0f;
+    float y = 0.0f, yi = 0.0f;
+    float z = 0.0f, zi = 0.0f;
+    float xRot = 0.0f, xRoti = 0.0f;
+    float yRot = 0.0f, yRoti = 0.0f;
+
+    float translateSpeed = 0.02f;
+    float rotateSpeed = 0.2f;
 };

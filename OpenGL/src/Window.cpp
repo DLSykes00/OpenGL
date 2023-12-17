@@ -1,14 +1,7 @@
 #include "Window.h"
 #include "Input.h"
-#include "Render.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "Camera.h"
-
+#include "Application.h"
 #include <iostream>
-
-int Window::WIDTH = 720;
-int Window::HEIGHT = 720;
 
 Window::Window()
 {
@@ -17,25 +10,22 @@ Window::Window()
         exit(0);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(Window::WIDTH, Window::HEIGHT, "Window", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Window", NULL, NULL);
     if (!window)
         Window::~Window();
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSetWindowUserPointer(window, this);
 
     glewInit();
 
     glfwSwapInterval(1);
 
-    glViewport(0, 0, Window::WIDTH, Window::HEIGHT);
+    glViewport(0, 0, width, height);
 
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-    glDebugMessageCallback(MessageCallback, 0);
-
-    glfwSetKeyCallback(window, keyCallback);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
@@ -45,80 +35,16 @@ Window::Window()
 
     glClearColor(0.04f, 0.07f, 0.1f, 1.0f);
 
+    glDebugMessageCallback(MessageCallback, 0);
+    glfwSetKeyCallback(window, keyCallback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+
     std::cout << glGetString(GL_VERSION) << std::endl;
 }
 
 Window::~Window()
 {
     glfwTerminate();
-}
-
-void Window::run()
-{
-    Texture texture("Resources/Textures/test.png");
-    texture.bindTexture(0);
-
-    Shader shader;
-    shader.useShader();
-    shader.setUniform1i("u_Texture", 0);
-
-    Render render;
-    float cubeAngle = 0.0f;
-
-    Camera camera;
-
-    int frames = 0;
-    double currentTime;
-    double deltaTime = 0.0;
-    double elapsedTime = 0.0;
-    double previousTime = 0.0;
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        currentTime = glfwGetTime();
-        deltaTime = currentTime - previousTime;
-        previousTime = currentTime;
-
-        elapsedTime += deltaTime;
-        if (elapsedTime >= 1.0)
-        {
-            std::string windowTitle = "FPS: " + std::to_string(static_cast<int>(frames/elapsedTime)) + " (VSync: On)";
-            glfwSetWindowTitle(window, windowTitle.c_str());
-
-            elapsedTime = 0.0;
-            frames = 0;
-        }
-
-        //Doesn't belong here long-term!
-        cubeAngle += 0.5f;
-        if (cubeAngle >= 360.0f)
-            cubeAngle -= 360.0f;
-
-        camera.updateCamera();
-
-        if (Input::windowResized) {
-            camera.setProjectionMatrix(static_cast<float>(Window::WIDTH) / static_cast<float>(Window::HEIGHT));
-            std::cout << "\n\nUPDATED PROJECTION MATRIX\n\n";
-            Input::windowResized = false;
-        }
-
-        shader.setMvpMatrix(cubeAngle, camera.getViewMatrix(), camera.getProjectionMatrix());
-
-        // Render here 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        render.drawCube();
-        
-        glDrawElementsInstanced(GL_TRIANGLES, render.getVertCount(), GL_UNSIGNED_INT, nullptr, render.getInstanceCount());
-        // Swap front and back buffers 
-        glfwSwapBuffers(window);
-
-        // Poll for and process events
-        glfwPollEvents();
-
-        frames++;
-    }
 }
 
 void GLAPIENTRY Window::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -130,13 +56,17 @@ void GLAPIENTRY Window::MessageCallback(GLenum source, GLenum type, GLuint id, G
 
 void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    Input::key = key;
-    Input::action = action;
+    Input::setKey(key, action != GLFW_RELEASE);
 }
 
 // Set viewport to new window size and update projection matrix aspect ratio
-void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
-    Input::windowResized = true;
-    Window::WIDTH = width; Window::HEIGHT = height;
+void Window::framebufferSizeCallback(GLFWwindow* window, int w, int h)
+{
+    glViewport(0, 0, w, h);
+
+    Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    win->setHeight(h);
+    win->setWidth(w);
+    
+    Input::setWindowResize(w, h);
 }

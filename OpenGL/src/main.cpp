@@ -1,9 +1,9 @@
-#include "Window.h"
+#include "Application.h"
 
-int main(void)
+int main()
 {
-    Window window;
-    window.run();
+    Application app;
+    app.run();
 
     return 0;
 }

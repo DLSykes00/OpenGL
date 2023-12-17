@@ -1,23 +1,32 @@
 #pragma once
 
+#include "Shader.h"
+#include "Texture.h"
+#include "Camera.h"
+
 class Render
 {
-private:
-    unsigned int vertexBufferID;
-    unsigned int indexBufferID;
-    unsigned int textureBufferID;
-    unsigned int instanceOffsetBufferID;
-
-    unsigned int vertCount;
-    unsigned int instanceCount;
-
 public:
     Render();
-    unsigned int drawTriangle();
-    unsigned int drawSquare3D();
-    unsigned int drawCircle(float s);
+    void draw();
     void drawCube();
 
-    unsigned int getVertCount();
-    unsigned int getInstanceCount();
+    uint32_t drawTriangle();
+    uint32_t drawSquare3D();
+    uint32_t drawCircle(float s);
+
+private:
+    uint32_t vertexBufferID;
+    uint32_t indexBufferID;
+    uint32_t textureBufferID;
+    uint32_t instanceOffsetBufferID;
+
+    uint32_t vertCount = 0;
+    uint32_t instanceCount = 0;
+
+    float cubeAngle = 0.0f;
+
+    Shader shader;
+    Texture texture;
+    Camera camera;
 };

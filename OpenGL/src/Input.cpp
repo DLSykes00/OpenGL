@@ -1,6 +1,7 @@
 #include "Input.h"
 
-int Input::key;
-int Input::action;
+bool Input::keys[MAX_KEYS] = {false};
 
 bool Input::windowResized = false;
+int Input::wy;
+int Input::wx;
