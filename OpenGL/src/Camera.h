@@ -12,8 +12,8 @@ public:
     void updateCamera();
     
     void setAspectRatio(float ar) { aspectRatio = ar; };
-    glm::mat4 getViewMatrix() { return viewMatrix; };
-    glm::mat4 getProjectionMatrix() { return projectionMatrix; };
+    const glm::mat4& getViewMatrix() const { return viewMatrix; };
+    const glm::mat4& getProjectionMatrix() const { return projectionMatrix; };
 
 private: 
     void updatePosition();
