@@ -6,8 +6,8 @@
 #include <vector>
 #include <cmath>
 
-#define _PI 3.14159265358979323846
-#define _2PI (2 * 3.14159265358979323846)
+const double _PI = 3.14159265358979323846;
+const double _2PI = (2 * _PI);
 
 Render::Render() 
 {
@@ -200,8 +200,8 @@ void Render::drawCube()
     
     float instaceOffsetBuffer[] = 
     {
-        0.0f, 0.0f, 0.0f,
-        3.0f, 0.0f, 0.0f
+        -2.0f, 0.0f, 0.0f,
+        2.0f, 0.0f, 0.0f
     };
     
 

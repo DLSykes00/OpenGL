@@ -1,7 +1,6 @@
 #include "Shader.h"
 
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -9,8 +8,6 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-
-
 
 unsigned int Shader::compileShader(unsigned int type, const std::string& source)
 {
@@ -108,23 +105,15 @@ void Shader::setUniform1i(const std::string& name, int value)
     glUniform1i(uniformLocation, value);
 }
 
-void Shader::setProjectionMatrix(float angle, float x = 0.0f, float y = 0.0f, float z = -0.0f, float xRot = 0.0f, float yRot = 0.0f)
+void Shader::setMvpMatrix(float angle, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
 {
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0));
 
-    //glm::mat4 viewMatrix = glm::lookAt(glm::vec3(x, y, z), glm::vec3(xRot, yRot, -5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 viewMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(xRot), glm::vec3(1.0f, 0.0f, 0.0f)); //apply x rotation from camera
-    viewMatrix = glm::rotate(viewMatrix, glm::radians(yRot), glm::vec3(0.0f, 1.0f, 0.0f)); //apply y rotation from camera
-    viewMatrix = glm::translate(viewMatrix, glm::vec3(x, y, z)); //apply translation from camera
-    
-    glm::mat4 projectionMatrix = glm::perspective(glm::radians(75.0f), 1.0f, 0.1f, 300.0f);
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix  * modelMatrix;
+
+    glUniformMatrix4fv(glGetUniformLocation(shaderID, "u_mvpMatrix"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
 
-    glm::mat4 finalMatrix = projectionMatrix * viewMatrix  * modelMatrix;
-
-    glUniformMatrix4fv(glGetUniformLocation(shaderID, "u_transformMatrix"), 1, GL_FALSE, glm::value_ptr(finalMatrix));
-
     glUniformMatrix4fv(glGetUniformLocation(shaderID, "u_rotationMatrix"), 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 }
-

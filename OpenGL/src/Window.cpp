@@ -7,7 +7,8 @@
 
 #include <iostream>
 
-#define _PI 3.14159265358979323846
+int Window::WIDTH = 720;
+int Window::HEIGHT = 720;
 
 Window::Window()
 {
@@ -16,7 +17,7 @@ Window::Window()
         exit(0);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(720, 720, "Window", NULL, NULL);
+    window = glfwCreateWindow(Window::WIDTH, Window::HEIGHT, "Window", NULL, NULL);
     if (!window)
         Window::~Window();
 
@@ -27,13 +28,14 @@ Window::Window()
 
     glfwSwapInterval(1);
 
-    glViewport(0, 0, 720, 720);
+    glViewport(0, 0, Window::WIDTH, Window::HEIGHT);
 
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(MessageCallback, 0);
 
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetKeyCallback(window, keyCallback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
@@ -77,20 +79,16 @@ void Window::run()
         currentTime = glfwGetTime();
         deltaTime = currentTime - previousTime;
         previousTime = currentTime;
-        elapsedTime += deltaTime;
 
+        elapsedTime += deltaTime;
         if (elapsedTime >= 1.0)
         {
-            std::string windowTitle = "FPS: " + std::to_string(frames) + " (VSync: On)";
+            std::string windowTitle = "FPS: " + std::to_string(static_cast<int>(frames/elapsedTime)) + " (VSync: On)";
             glfwSetWindowTitle(window, windowTitle.c_str());
 
             elapsedTime = 0.0;
             frames = 0;
         }
-        frames++;
-
-        // Render here 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //Doesn't belong here long-term!
         cubeAngle += 0.5f;
@@ -98,18 +96,28 @@ void Window::run()
             cubeAngle -= 360.0f;
 
         camera.updateCamera();
-        std::cout << "angle|x|y|z: " << camera.yRot << " | " << camera.x << " | " << camera.y << " | " << camera.z << std::endl;
+
+        if (Input::windowResized) {
+            camera.setProjectionMatrix(static_cast<float>(Window::WIDTH) / static_cast<float>(Window::HEIGHT));
+            std::cout << "\n\nUPDATED PROJECTION MATRIX\n\n";
+            Input::windowResized = false;
+        }
+
+        shader.setMvpMatrix(cubeAngle, camera.getViewMatrix(), camera.getProjectionMatrix());
+
+        // Render here 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         render.drawCube();
-
-        shader.setProjectionMatrix(cubeAngle, camera.x, camera.y, camera.z, camera.xRot, camera.yRot);
-
+        
         glDrawElementsInstanced(GL_TRIANGLES, render.getVertCount(), GL_UNSIGNED_INT, nullptr, render.getInstanceCount());
         // Swap front and back buffers 
         glfwSwapBuffers(window);
 
         // Poll for and process events
         glfwPollEvents();
+
+        frames++;
     }
 }
 
@@ -120,17 +128,15 @@ void GLAPIENTRY Window::MessageCallback(GLenum source, GLenum type, GLuint id, G
         type, severity, message);
 }
 
-void Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     Input::key = key;
     Input::action = action;
 }
 
-
-
-
-
-
-
-
-
+// Set viewport to new window size and update projection matrix aspect ratio
+void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+    Input::windowResized = true;
+    Window::WIDTH = width; Window::HEIGHT = height;
+}
