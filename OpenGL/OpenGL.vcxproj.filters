@@ -45,9 +45,14 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GridMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CubeMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Shader.shader" />
     <None Include="Dependencies\glm-0.9.9.7\glm\doc\api\search\all_1.html" />
     <None Include="Dependencies\glm-0.9.9.7\glm\doc\api\search\all_2.html" />
     <None Include="Dependencies\glm-0.9.9.7\glm\doc\api\search\all_3.html" />
@@ -1154,6 +1159,10 @@
     <None Include="Dependencies\glew-2.1.0-win32\doc\install.html" />
     <None Include="Dependencies\glew-2.1.0-win32\doc\log.html" />
     <None Include="Dependencies\glew-2.1.0-win32\doc\wglew.html" />
+    <None Include="Shaders\basic.frag" />
+    <None Include="Shaders\basic.vert" />
+    <None Include="Shaders\cube.frag" />
+    <None Include="Shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glm-0.9.9.7\glm\glm\detail\_fixes.hpp">
@@ -1910,6 +1919,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GridMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CubeMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

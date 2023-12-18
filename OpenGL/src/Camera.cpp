@@ -10,62 +10,63 @@ Camera::Camera()
     setViewMatrix();
 }
 
-void Camera::handleInput()
+void Camera::handleInput(float dt)
 {
     // Translate
     if (Input::getKey(GLFW_KEY_W) == Input::getKey(GLFW_KEY_S))
         zi = 0.0f;
     else if (Input::getKey(GLFW_KEY_W))
-        zi = translateSpeed;    
+        zi = translateSpeed * dt;    
     else if (Input::getKey(GLFW_KEY_S))
-        zi = -translateSpeed;
+        zi = -translateSpeed * dt;
     
     if (Input::getKey(GLFW_KEY_A) == Input::getKey(GLFW_KEY_D))
         xi = 0.0f;
     else if (Input::getKey(GLFW_KEY_A))
-        xi = translateSpeed;
+        xi = translateSpeed * dt;
     else if (Input::getKey(GLFW_KEY_D))
-        xi = -translateSpeed;
+        xi = -translateSpeed * dt;
     
     if (Input::getKey(GLFW_KEY_SPACE) == Input::getKey(GLFW_KEY_LEFT_CONTROL))
         yi = 0.0f;
     else if (Input::getKey(GLFW_KEY_SPACE))
-        yi = -translateSpeed;
+        yi = translateSpeed * dt;
     else if (Input::getKey(GLFW_KEY_LEFT_CONTROL))
-        yi = translateSpeed;
+        yi = -translateSpeed * dt;
     
     // Rotate
     if (Input::getKey(GLFW_KEY_F) == Input::getKey(GLFW_KEY_V))
         xRoti = 0.0f;
     else if (Input::getKey(GLFW_KEY_F))
-        xRoti = -rotateSpeed;
+        xRoti = -rotateSpeed * dt;
     else if (Input::getKey(GLFW_KEY_V))
-        xRoti = rotateSpeed;
+        xRoti = rotateSpeed * dt;
     
     if (Input::getKey(GLFW_KEY_Q) == Input::getKey(GLFW_KEY_E))
         yRoti = 0.0f;
     else if (Input::getKey(GLFW_KEY_Q))
-        yRoti = -rotateSpeed;
+        yRoti = -rotateSpeed * dt;
     else if (Input::getKey(GLFW_KEY_E))
-        yRoti = rotateSpeed;
+        yRoti = rotateSpeed * dt;
 }
 
-void Camera::updateCamera()
+void Camera::updateCamera(float dt)
 {
-    if (Input::getWindowResized()) {
+    if (Input::getWindowResized())
+    {
         aspectRatio = static_cast<float>(Input::getWx()) / static_cast<float>(Input::getWy());
         setProjectionMatrix(fov, aspectRatio, zNear, zFar);
         Input::setWindowResized(false);
     }
 
-    handleInput();
+    handleInput(dt);
     updatePosition();
     setViewMatrix();
 }
 
 void Camera::updatePosition()
 {
-    const double _PI = 3.14159265358979323846;
+    const float _PI = 3.1415926536f;
 
     xRot += xRoti;
     yRot += yRoti;
@@ -80,9 +81,9 @@ void Camera::updatePosition()
     else if (yRot < 0.0f)
         yRot += 360.0f;
 
-    x += (xi * std::cos((yRot * _PI) / 180)) + (zi * -std::sin((yRot * _PI) / 180));
+    x += (xi * -std::cosf((yRot * _PI) / 180.0f)) + (zi * std::sinf((yRot * _PI) / 180.0f));
     y += yi;
-    z += (xi * std::sin((yRot * _PI) / 180)) + (zi * std::cos((yRot * _PI) / 180));
+    z += (xi * std::sinf((yRot * _PI) / 180.0f)) + (zi * std::cosf((yRot * _PI) / 180.0f));
 
     std::cout << "angle|x|y|z: " << yRot << " | " << x << " | " << y << " | " << z << std::endl;
 }
@@ -91,7 +92,7 @@ void Camera::setViewMatrix()
 {
     viewMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(xRot), glm::vec3(1.0f, 0.0f, 0.0f)); // apply xRot
     viewMatrix = glm::rotate(viewMatrix, glm::radians(yRot), glm::vec3(0.0f, 1.0f, 0.0f)); // apply yRot
-    viewMatrix = glm::translate(viewMatrix, glm::vec3(x, y, z)); // apply translation    
+    viewMatrix = glm::translate(viewMatrix, glm::vec3(-x, -y, z)); // apply translation    
 }
 
 void Camera::setProjectionMatrix(float fov, float aspectRatio, float zNear, float zFar)
