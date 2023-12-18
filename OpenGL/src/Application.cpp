@@ -2,20 +2,21 @@
 #include "Window.h"
 #include "Input.h"
 #include <iostream>
+#include <string>
 
 void Application::run() 
 {
     while (!window.shouldClose())
     {
-        currentTime = glfwGetTime();
+        currentTime = static_cast<float>(glfwGetTime());
         deltaTime = currentTime - previousTime;
         previousTime = currentTime;
 
         elapsedTime += deltaTime;
-        if (elapsedTime >= 1.0)
+        if (elapsedTime >= 1.0f)
             showFPS();
 
-        render.draw();
+        render.draw(deltaTime);
 
         window.swapBuffers();
 

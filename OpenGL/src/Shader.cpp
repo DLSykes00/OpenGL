@@ -1,11 +1,15 @@
 #include "Shader.h"
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
+
+Shader::Shader()
+{
+    loadShaders();
+}
 
 unsigned int Shader::compileShader(unsigned int type, const std::string& source)
 {
@@ -52,43 +56,47 @@ unsigned int Shader::createShader(const std::string& vertexShaderSource, const s
     return program;
 }
 
-Shader::ShaderSourceStruct Shader::parseShader(const std::string& filepath)
+void Shader::parseShader(const std::string& filepath)
 {
-    //C FILE API FASTER, CHANGE EVENTUALLY
-
-    std::ifstream stream(filepath);
-    std::string line;
     std::stringstream inputShaderSource[2];
-    int type;
+    std::string line;
 
-    while (getline(stream, line))
-    {
-        if (line.find("#shader vertex") != std::string::npos)
-        {
-            type = 0;
-        }
-        else if (line.find("#shader fragment") != std::string::npos)
-        {
-            type = 1;
-        }
-        else
-        {
-            inputShaderSource[type] << line << '\n';
-        }
-    }
+    // Read vertex shader
+    std::ifstream vertex(filepath + ".vert");
+    while (getline(vertex, line))
+        inputShaderSource[0] << line << '\n';
+
+    // Read fragment shader
+    std::ifstream fragment(filepath + ".frag");
+    while (getline(fragment, line))
+        inputShaderSource[1] << line << '\n';
 
     Shader::ShaderSourceStruct sss;
-    sss.vertexSource = inputShaderSource[0].str();
-    sss.fragmentSource = inputShaderSource[1].str();
-
-    return sss;
+    vertShader = inputShaderSource[0].str();
+    fragmentShader = inputShaderSource[1].str();
 }
 
-void Shader::useShader()
+void Shader::loadShaders()
 {
-    Shader::ShaderSourceStruct sss = parseShader("Shaders/Shader.shader");
-    shaderID = createShader(sss.vertexSource, sss.fragmentSource);
-    glUseProgram(shaderID);
+    parseShader("Shaders/basic");
+    basicShaderID = createShader(vertShader, fragmentShader);
+
+    parseShader("Shaders/cube");
+    cubeShaderID = createShader(vertShader, fragmentShader);
+
+    useBasicShader();
+}
+
+void Shader::useBasicShader()
+{
+    glUseProgram(basicShaderID);
+    shaderID = basicShaderID;
+}
+
+void Shader::useCubeShader()
+{
+    glUseProgram(cubeShaderID);
+    shaderID = cubeShaderID;
 }
 
 void Shader::setUniformColor(float r, float g, float b, float a)
@@ -103,10 +111,8 @@ void Shader::setUniform1i(const std::string& name, int value)
     glUniform1i(uniformLocation, value);
 }
 
-void Shader::setMvpMatrix(float angle, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
+void Shader::setMvpMatrix(const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, float angle)
 {
-    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0));
-
     glm::mat4 mvpMatrix = projectionMatrix * viewMatrix  * modelMatrix;
 
     glUniformMatrix4fv(glGetUniformLocation(shaderID, "u_mvpMatrix"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));

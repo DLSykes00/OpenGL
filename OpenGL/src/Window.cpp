@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "Input.h"
-#include "Application.h"
 #include <iostream>
 
 Window::Window()
@@ -20,7 +19,7 @@ Window::Window()
 
     glewInit();
 
-    glfwSwapInterval(1);
+    glfwSwapInterval(1); // v-sync
 
     glViewport(0, 0, width, height);
 

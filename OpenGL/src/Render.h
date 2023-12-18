@@ -3,30 +3,25 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "GridMesh.h"
+#include "CubeMesh.h"
 
 class Render
 {
 public:
     Render();
-    void draw();
-    void drawCube();
-
-    uint32_t drawTriangle();
-    uint32_t drawSquare3D();
-    uint32_t drawCircle(float s);
+    void draw(float dt);
 
 private:
-    uint32_t vertexBufferID;
-    uint32_t indexBufferID;
-    uint32_t textureBufferID;
-    uint32_t instanceOffsetBufferID;
+    void drawCube(float angle);
+    void drawGrid();
 
-    uint32_t vertCount = 0;
-    uint32_t instanceCount = 0;
-
-    float cubeAngle = 0.0f;
+    CubeMesh cubeMesh;
+    GridMesh gridMesh;
 
     Shader shader;
     Texture texture;
     Camera camera;
+
+    float cubeAngle = 0.0f;
 };

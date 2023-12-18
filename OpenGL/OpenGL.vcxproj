@@ -154,8 +154,10 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="Dependencies\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CubeMesh.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\GridMesh.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -1000,21 +1002,10 @@
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\vector_angle.inl" />
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\vector_query.inl" />
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\wrap.inl" />
-    <None Include="Shaders\Shader.shader">
-      <FileType>NoBuildShader</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </DeploymentContent>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </DeploymentContent>
-    </None>
+    <None Include="Shaders\basic.frag" />
+    <None Include="Shaders\basic.vert" />
+    <None Include="Shaders\cube.frag" />
+    <None Include="Shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
@@ -1264,7 +1255,9 @@
     <ClInclude Include="Dependencies\glm-0.9.9.7\glm\glm\vector_relational.hpp" />
     <ClInclude Include="Dependencies\stb_image\stb_image.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CubeMesh.h" />
     <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\GridMesh.h" />
     <ClInclude Include="src\Render.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Texture.h" />

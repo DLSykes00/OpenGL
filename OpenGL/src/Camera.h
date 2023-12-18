@@ -1,21 +1,21 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 
 class Camera 
 {
 public:
     Camera();
-    void handleInput();
-    void updateCamera();
+    void updateCamera(float dt);
     
     void setAspectRatio(float ar) { aspectRatio = ar; };
     const glm::mat4& getViewMatrix() const { return viewMatrix; };
     const glm::mat4& getProjectionMatrix() const { return projectionMatrix; };
 
 private: 
+    void handleInput(float dt);
     void updatePosition();
     void setViewMatrix();
     void setProjectionMatrix(float fov, float aspectRatio, float zNear, float zFar);
@@ -28,12 +28,13 @@ private:
     float zNear = 0.1f;
     float zFar = 300.0f;
 
-    float x = 0.0f, xi = 0.0f;
-    float y = 0.0f, yi = 0.0f;
-    float z = 0.0f, zi = 0.0f;
-    float xRot = 0.0f, xRoti = 0.0f;
-    float yRot = 0.0f, yRoti = 0.0f;
+    // Change to vector format
+    float x = 0.0f, y = 1.0f, z = 0.0f;
+    float xi = 0.0f, yi = 0.0f, zi = 0.0f;
 
-    float translateSpeed = 0.02f;
-    float rotateSpeed = 0.2f;
+    float xRot = 0.0f, yRot = 0.0f;
+    float xRoti = 0.0f, yRoti = 0.0f;
+
+    float translateSpeed = 2.0f;
+    float rotateSpeed = 45.0f;
 };
