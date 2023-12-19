@@ -1,9 +1,11 @@
 #include <GL/glew.h>
 #include "CubeMesh.h"
+#include <vector>
 
 CubeMesh::CubeMesh()
 {
     // Vertices
+    std::vector<glm::vec3> vertices;
     vertices.push_back(glm::vec3(-0.5f, -0.5f, -0.5f)); //0
     vertices.push_back(glm::vec3(-0.5f,  0.5f, -0.5f)); //1
     vertices.push_back(glm::vec3( 0.5f,  0.5f, -0.5f)); //2
@@ -14,6 +16,7 @@ CubeMesh::CubeMesh()
     vertices.push_back(glm::vec3( 0.5f,  0.5f,  0.5f)); //7
   
     // Faces (tris)
+    std::vector<glm::uvec3> indices;
     // front
     indices.push_back(glm::uvec3(0, 1, 2));
     indices.push_back(glm::uvec3(2, 3, 0));
@@ -32,8 +35,10 @@ CubeMesh::CubeMesh()
     // bottom
     indices.push_back(glm::uvec3(3, 4, 5));
     indices.push_back(glm::uvec3(5, 0, 3));
+    indicesCount = static_cast<GLsizei>(indices.size() * sizeof(glm::uvec3));
 
     // Textures (uv)
+    std::vector<glm::vec2> textureUVs;
     for (int face = 0; face < 6; face++)
     {
         textureUVs.push_back(glm::vec2(0.0f, 0.0f));
@@ -42,8 +47,17 @@ CubeMesh::CubeMesh()
         textureUVs.push_back(glm::vec2(0.0f, 1.0f));
     }
 
+    // Instances
+    std::vector<glm::vec3> instances;
     instances.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
     instances.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+    instanceCount = static_cast<GLsizei>(instances.size());
+
+
+    GLuint vertexBuffer, indexBuffer, textureBuffer, instanceBuffer;
+    // Create vao
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     // Vertices + Indices
     glGenBuffers(1, &vertexBuffer);
