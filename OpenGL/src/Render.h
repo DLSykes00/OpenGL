@@ -10,18 +10,19 @@ class Render
 {
 public:
     Render();
+
     void draw(float dt);
 
 private:
+    Shader m_shader;
+    Texture m_texture;
+    Camera m_camera;
+
+    CubeMesh m_cubeMesh;
+    GridMesh m_gridMesh;
+
+    float m_cubeAngle = 0.0f;
+
     void drawCube(float angle);
     void drawGrid();
-
-    CubeMesh cubeMesh;
-    GridMesh gridMesh;
-
-    Shader shader;
-    Texture texture;
-    Camera camera;
-
-    float cubeAngle = 0.0f;
 };
