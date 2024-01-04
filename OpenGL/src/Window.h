@@ -11,29 +11,31 @@ public:
 	~Window();
 
     GLFWwindow* getWindow() { return window; };
-
-    void pollEvents() { glfwPollEvents(); };
-    void swapBuffers() { glfwSwapBuffers(window); };
-    bool shouldClose() { return glfwWindowShouldClose(window); };
     void setTitle(const std::string& title) { glfwSetWindowTitle(window, title.c_str()); };
+    void pollEvents() { glfwPollEvents(); };
+    void swapBuffers() { glfwSwapBuffers(window); }
+    bool shouldClose() { return glfwWindowShouldClose(window); };
 
-    int getWidth() { return width; };
-    void setWidth(int w) { width = w; calculateAR(); };
-    int getHeight() { return height; };
-    void setHeight(int h) { height = h; calculateAR(); };
-    float getAspectRatio() { return aspectRatio; };
+    int getWidth() { return m_width; };
+    int getHeight() { return m_height; };
+    void setWidth(int w) { m_width = w; };
+    void setHeight(int h) { m_height = h; };
 
 private:
     GLFWwindow* window;
+
+    int m_width = 1280;
+    int m_height = 720;
+
+    int m_vSyncInterval = 1;
+    int m_samplesMSAA = 4;
+
+    void setupGLFW();
 
     static void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
         GLsizei length, const GLchar* message, const void* userParam);
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
-
-    void calculateAR() { aspectRatio = static_cast<float>(width) / static_cast<float>(height); };
-
-    int width = 720;
-    int height = 720;
-    float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+    static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
 };
+ 
