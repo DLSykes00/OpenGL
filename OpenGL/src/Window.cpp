@@ -5,16 +5,15 @@ Window::Window()
 {
     setupGLFW();
 
-    glewInit();
+    if (glewInit()) exit(0);
     glViewport(0, 0, m_width, m_height);
-
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(MessageCallback, 0);
 
     Input::setWindowSize(m_width, m_height);
 
-    printf(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+    puts(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 }
 
 Window::~Window()
@@ -27,7 +26,7 @@ void Window::setupGLFW()
     if (!glfwInit()) exit(0);
 
     glfwWindowHint(GLFW_SAMPLES, m_samplesMSAA); // MSAA
-    
+
     // Create a windowed mode window and its OpenGL context
     window = glfwCreateWindow(m_width, m_height, "Window", NULL, NULL);
     if (!window)
@@ -69,7 +68,7 @@ void Window::framebufferSizeCallback(GLFWwindow* window, int w, int h)
     Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
     win->setHeight(h);
     win->setWidth(w);
-    
+
     Input::setWindowSize(w, h);
 }
 
