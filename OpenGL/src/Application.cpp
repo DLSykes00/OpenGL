@@ -1,35 +1,34 @@
 #include "Application.h"
-#include "Window.h"
-#include "Input.h"
-#include <iostream>
 #include <string>
 
-void Application::run() 
+void Application::run()
 {
-    while (!window.shouldClose())
+    Timer timer;
+
+    while (!m_window.shouldClose())
     {
-        currentTime = static_cast<float>(glfwGetTime());
-        deltaTime = currentTime - previousTime;
-        previousTime = currentTime;
+        m_window.pollEvents();
 
-        elapsedTime += deltaTime;
-        if (elapsedTime >= 1.0f)
-            showFPS();
+        m_render.draw(timer.getDeltaTimeS());
 
-        render.draw(deltaTime);
+        timer.updateCpuTime();
+        m_window.swapBuffers();
 
-        window.swapBuffers();
-
-        window.pollEvents();
-
-        frames++;
+        timer.update();
+        if (timer.getElapsedTimeS() >= 1.0f / m_fpsUpdateRateHz)
+        {
+            displayFrameInfo(timer.getFrames(), timer.getElapsedTimeS(), timer.getCpuTimeS());
+            timer.resetTimer();
+        }
     }
 }
 
-void Application::showFPS()
+void Application::displayFrameInfo(int frames, float elapsedTimeS, float cpuTimeS)
 {
-    std::string windowTitle = "FPS: " + std::to_string(static_cast<int>(frames / elapsedTime)) + " (VSync: On)";
-    window.setTitle(windowTitle);
-    elapsedTime = 0.0;
-    frames = 0;
+    glm::vec3 pos = m_render.getCamera().getPosition();
+    m_window.setTitle(std::to_string(static_cast<int>(frames / elapsedTimeS)) + " FPS, "
+        + std::to_string(1e3 * elapsedTimeS / frames)       + " ms | " +
+        + "CPU: " + std::to_string(1e3 * cpuTimeS / frames) + " ms | "
+        + "GPU: " + std::to_string(m_render.getGpuTimeMs()) + " ms | "
+        + "X: " + std::to_string(pos.x) + ", Y: " + std::to_string(pos.y) + ", Z: " + std::to_string(pos.z));
 }

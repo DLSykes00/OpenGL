@@ -7,28 +7,29 @@
 class Window
 {
 public:
-	Window();
-	~Window();
+    Window();
+    ~Window();
 
-    GLFWwindow* getWindow() { return window; };
-    void setTitle(const std::string& title) { glfwSetWindowTitle(window, title.c_str()); };
-    void pollEvents() { glfwPollEvents(); };
+    GLFWwindow* getWindow() { return window; }
+
+    void pollEvents()  { glfwPollEvents(); }
     void swapBuffers() { glfwSwapBuffers(window); }
-    bool shouldClose() { return glfwWindowShouldClose(window); };
+    bool shouldClose() { return glfwWindowShouldClose(window); }
+    void setTitle(const std::string& title) { glfwSetWindowTitle(window, title.c_str()); }
 
-    int getWidth() { return m_width; };
-    int getHeight() { return m_height; };
-    void setWidth(int w) { m_width = w; };
-    void setHeight(int h) { m_height = h; };
+    int  getWidth()       { return m_width; }
+    int  getHeight()      { return m_height; }
+    void setWidth(int w)  { m_width = w; }
+    void setHeight(int h) { m_height = h; }
 
 private:
     GLFWwindow* window;
 
-    int m_width = 1280;
+    int m_width  = 1280;
     int m_height = 720;
 
-    int m_vSyncInterval = 1;
     int m_samplesMSAA = 4;
+    int m_vSyncInterval = 0;
 
     void setupGLFW();
 
@@ -38,4 +39,3 @@ private:
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
     static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
 };
- 
