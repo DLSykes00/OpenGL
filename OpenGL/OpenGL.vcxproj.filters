@@ -42,13 +42,28 @@
     <ClCompile Include="src\Graphics\Render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Graphics\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Dependencies\include\stb\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Chunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shaders\TerrainShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shaders\BasicShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1159,10 +1174,10 @@
     <None Include="Dependencies\glew-2.1.0-win32\doc\install.html" />
     <None Include="Dependencies\glew-2.1.0-win32\doc\log.html" />
     <None Include="Dependencies\glew-2.1.0-win32\doc\wglew.html" />
-    <None Include="Shaders\basic.frag" />
-    <None Include="Shaders\basic.vert" />
-    <None Include="Shaders\cube.frag" />
-    <None Include="Shaders\cube.vert" />
+    <None Include="Assets\Shaders\basic.frag" />
+    <None Include="Assets\Shaders\basic.vert" />
+    <None Include="Assets\Shaders\terrain.frag" />
+    <None Include="Assets\Shaders\terrain.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glm-0.9.9.7\glm\glm\detail\_fixes.hpp">
@@ -1918,13 +1933,31 @@
     <ClInclude Include="src\Graphics\Render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\include\stb\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Block.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\FastNoise\FastNoiseLite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Shaders\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Shaders\TerrainShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Shaders\BasicShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

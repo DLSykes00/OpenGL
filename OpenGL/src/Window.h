@@ -28,7 +28,7 @@ private:
     int m_width  = 1280;
     int m_height = 720;
 
-    int m_samplesMSAA = 4;
+    int m_samplesMSAA   = 4;
     int m_vSyncInterval = 0;
 
     void setupGLFW();
