@@ -15,7 +15,6 @@ public:
     static bool getWindowResized()          { return windowResized; }
     static void setWindowResized(bool b)    { windowResized = b; }
     static void setWindowSize(int x, int y) { windowWidth = x; windowHeight = y; windowResized = true; }
-    
 
 private:
     static const int MAX_KEYS = 512;

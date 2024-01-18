@@ -11,5 +11,5 @@ public:
     void bindTexture(unsigned int slot = 0) const;
 
 private:
-    unsigned int m_textureBufferID;
+    uint32_t m_textureBufferID;
 };

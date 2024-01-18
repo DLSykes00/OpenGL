@@ -30,6 +30,12 @@ void Camera::handleInput(float dt)
 {
     float dx = 0.0f, dy = 0.0f, dz = 0.0f, dpitch = 0.0f, dyaw = 0.0f;
 
+    // Modifiers
+    if (Input::getKey(GLFW_KEY_LEFT_SHIFT))
+        m_translateSpeed = m_baseSpeed * m_speedMultiplier;
+    else
+        m_translateSpeed = m_baseSpeed;
+
     // Translate
     if (Input::getKey(GLFW_KEY_W))
         dz -= m_translateSpeed * dt;
@@ -88,9 +94,18 @@ void Camera::setViewMatrix()
     viewMatrix = glm::translate(viewMatrix, glm::vec3(-m_position.x, -m_position.y, -m_position.z));
 
     m_viewMatrix = viewMatrix;
+
+    updateProjectionViewMatrix();
 }
 
 void Camera::setProjectionMatrix(float fov, float aspectRatio, float zNear, float zFar)
 {
     m_projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, zNear, zFar);
+
+    updateProjectionViewMatrix();
+}
+
+void Camera::updateProjectionViewMatrix()
+{
+    m_projectionViewMatrix = m_projectionMatrix * m_viewMatrix;
 }

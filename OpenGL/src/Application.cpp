@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <string>
+#include <thread>
 
 void Application::run()
 {
@@ -13,7 +14,7 @@ void Application::run()
 
         timer.updateCpuTime();
         m_window.swapBuffers();
-
+        
         timer.update();
         if (timer.getElapsedTimeS() >= 1.0f / m_fpsUpdateRateHz)
         {
@@ -25,7 +26,8 @@ void Application::run()
 
 void Application::displayFrameInfo(int frames, float elapsedTimeS, float cpuTimeS)
 {
-    glm::vec3 pos = m_render.getCamera().getPosition();
+    const glm::vec3& pos = m_render.getCamera().getPosition();
+
     m_window.setTitle(std::to_string(static_cast<int>(frames / elapsedTimeS)) + " FPS, "
         + std::to_string(1e3 * elapsedTimeS / frames)       + " ms | " +
         + "CPU: " + std::to_string(1e3 * cpuTimeS / frames) + " ms | "

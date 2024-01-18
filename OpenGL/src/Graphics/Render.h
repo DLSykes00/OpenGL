@@ -1,10 +1,15 @@
 #pragma once
 
-#include "Shader.h"
 #include "Texture.h"
 #include "Camera.h"
-#include "GridMesh.h"
 #include "CubeMesh.h"
+#include "GridMesh.h"
+#include "World/World.h"
+#include "World/Chunk.h"
+#include "Shaders/BasicShader.h"
+#include "Shaders/TerrainShader.h"
+
+class Chunk;
 
 class Render
 {
@@ -18,16 +23,20 @@ public:
     float getGpuTimeMs();
 
 private:
-    Shader   m_shader;
-    Camera   m_camera;
-    Texture  m_texture;
-    CubeMesh m_cubeMesh;
-    GridMesh m_gridMesh;
-
-    float m_cubeAngle = 0.0f;
+    Camera        m_camera;
+    Texture       m_texture;
+    World         m_world;
+    CubeMesh      m_cubeMesh;
+    GridMesh      m_gridMesh;
+    BasicShader   m_basicShader;
+    TerrainShader m_terrainShader;
 
     GLuint m_gpuTimeQueryID;
+    float  m_timer = 0.0f;
 
+    void drawWorld();
+    void drawCube(const glm::vec3& position);
     void drawGrid();
-    void drawCube(float angle);
+
+    glm::vec3 lightPos = glm::vec3(0, 256.0f, -256.0f);
 };

@@ -88,12 +88,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL Stuff\Dependencies\glm-0.9.9.7;$(SolutionDir)OpenGL Stuff\Dependencies\glew-2.1.0-win32\include;$(SolutionDir)OpenGL Stuff\Dependencies\glfw-3.3.2.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL Stuff\Dependencies\glew-2.1.0-win32\lib\Release\x64;$(SolutionDir)OpenGL Stuff\Dependencies\glfw-3.3.2.bin.WIN64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -120,14 +120,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL Stuff\Dependencies\glm-0.9.9.7;$(SolutionDir)OpenGL Stuff\Dependencies\glew-2.1.0-win32\include;$(SolutionDir)OpenGL Stuff\Dependencies\glfw-3.3.2.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL Stuff\Dependencies\glew-2.1.0-win32\lib\Release\x64;$(SolutionDir)OpenGL Stuff\Dependencies\glfw-3.3.2.bin.WIN64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -139,18 +139,23 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\Dependencies\glm-0.9.9.7;$(SolutionDir)OpenGL\Dependencies\glew-2.1.0-win32\include;$(SolutionDir)OpenGL\Dependencies\glfw-3.3.2.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\glew-2.1.0-win32\lib\Release\x64;$(SolutionDir)OpenGL\Dependencies\glfw-3.3.2.bin.WIN64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenGL\Dependencies\lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Shaders\BasicShader.cpp" />
+    <ClCompile Include="src\Graphics\Shaders\TerrainShader.cpp" />
+    <ClCompile Include="src\Graphics\Shaders\Shader.cpp" />
+    <ClCompile Include="src\World\Block.cpp" />
+    <ClCompile Include="src\World\Chunk.cpp" />
     <ClCompile Include="Dependencies\include\stb\stb_image.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Graphics\Camera.cpp" />
@@ -159,9 +164,9 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Graphics\GridMesh.cpp" />
     <ClCompile Include="src\Graphics\Render.cpp" />
-    <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\glew-2.1.0-win32\doc\advanced.html" />
@@ -1002,12 +1007,18 @@
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\vector_angle.inl" />
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\vector_query.inl" />
     <None Include="Dependencies\glm-0.9.9.7\glm\glm\gtx\wrap.inl" />
-    <None Include="Shaders\basic.frag" />
-    <None Include="Shaders\basic.vert" />
-    <None Include="Shaders\cube.frag" />
-    <None Include="Shaders\cube.vert" />
+    <None Include="Assets\Shaders\terrain.frag" />
+    <None Include="Assets\Shaders\terrain.vert" />
+    <None Include="Assets\Shaders\basic.frag" />
+    <None Include="Assets\Shaders\basic.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\Shaders\BasicShader.h" />
+    <ClInclude Include="src\Graphics\Shaders\TerrainShader.h" />
+    <ClInclude Include="Dependencies\include\FastNoise\FastNoiseLite.h" />
+    <ClInclude Include="src\Graphics\Shaders\Shader.h" />
+    <ClInclude Include="src\World\Block.h" />
+    <ClInclude Include="src\World\Chunk.h" />
     <ClInclude Include="Dependencies\include\stb\stb_image.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="Dependencies\glew-2.1.0-win32\include\GL\eglew.h" />
@@ -1259,9 +1270,9 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Graphics\GridMesh.h" />
     <ClInclude Include="src\Graphics\Render.h" />
-    <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Texture.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\World\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

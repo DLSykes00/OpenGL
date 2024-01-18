@@ -1,3 +1,3 @@
 <div align="center">
-  <img src="https://github.com/dlsykes00/OpenGL/assets/9630965/3cfad0ab-4833-4706-91b6-ca273465a3d5" />
+  <img src="https://github.com/dlsykes00/OpenGL/assets/9630965/ef7ebc90-19d0-4139-9480-142d2e832356" />
 </div>

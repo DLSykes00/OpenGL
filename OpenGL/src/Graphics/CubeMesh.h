@@ -7,13 +7,15 @@ class CubeMesh
 {
 public:
     CubeMesh();
+    ~CubeMesh();
 
     GLuint  getVao()           { return m_vao; }
-    GLsizei getIndiciesCount() { return m_indicesCount; }
-    GLsizei getInstanceCount() { return m_instanceCount; }
+    GLsizei getIndicesCount()  { return m_indicesCount; }
 
 private:
     GLuint  m_vao;
     GLsizei m_indicesCount;
-    GLsizei m_instanceCount;
+
+    GLuint m_vbo;
+    GLuint m_ebo;
 };
